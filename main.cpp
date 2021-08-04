@@ -71,30 +71,108 @@ int main()
     vM->vCoord = _vCoord;
     int nCh;
 
+    std::vector<std::string> vWall;
+    for (int k = 0; k < 4; k++)
+    {
+        vWall.push_back("##");
+        vWall.push_back("##");
+        vWall.push_back("##");
+        vWall.push_back("##");
+        vWall.push_back("  ");
+    }
+    std::vector<std::string> vRazmetka;
+    for (int k = 0; k < 4; k++)
+    {
+        vRazmetka.push_back("||");
+        vRazmetka.push_back("||");
+        vRazmetka.push_back("||");
+        vRazmetka.push_back("||");
+        vRazmetka.push_back("  ");
+    }
+
+    std::vector<Mesh *> aWalls;
+    const int nWallCount = 6;
+
+    for (int k = 0; k < nWallCount; k++)
+    {
+        Mesh *vM = new Mesh(scr, vWall, 2, 5);
+        vM->vCoord.x = 0;
+        vM->vCoord.y = k * 5;
+        aWalls.push_back(vM);
+
+        Mesh *vMr = new Mesh(scr, vWall, 2, 5);
+        vMr->vCoord.x = mx - 2;
+        vMr->vCoord.y = k * 5;
+        aWalls.push_back(vMr);
+
+        Mesh *vRr = new Mesh(scr, vRazmetka, 2, 5);
+        vRr->vCoord.x = mx / 2 - 2;
+        vRr->vCoord.y = (k * 5)+3;
+        aWalls.push_back(vRr);
+    }
+
+    std::vector<std::string> aMacquin;
+    aMacquin.push_back(" II ");
+    aMacquin.push_back("OTTO");
+    aMacquin.push_back(" HH ");
+    aMacquin.push_back("OvvO");
+
+    Mesh *vMacquin = new Mesh(scr, aMacquin, 4, 4);
+    vMacquin->vCoord.x = (mx / 4) - 2;
+    vMacquin->vCoord.y = my - 4;
+
     while (true)
     {
         usleep(100000);
-        clear();
+        // clear();
         scr->fClear();
 
-        _vCoord.y += 1;
-        if (_vCoord.y > my + 5)
+        for (int k = 0; k < nWallCount * 2; k++)
         {
-            _vCoord.y = 0;
+            aWalls[k]->vCoord.y += 1;
+            if (aWalls[k]->vCoord.y > my)
+            {
+                aWalls[k]->vCoord.y = -5;
+            }
+            aWalls[k]->fPrintScr();
         }
 
-        vM->vCoord = _vCoord;
-        vM->fPrintScr();
+        vMacquin->fPrintScr();
+
         scr->fPrint();
 
         nCh = getch();
-        std::thread vThreadClick(fOnClick, nCh);
-        vThreadClick.join();
+        switch (nCh)
+        {
+        case ERR:
+            // printw("Please, press any key...\n"); //Если нажатия не было, напоминаем пользователю, что надо нажать клавишу
+            break;
+        case KEY_F(2): //Выходим из программы, если была нажата F2
+            break;
+        case KEY_UP:
+            vMacquin->vCoord.y -= 1;
+            break;
+        case KEY_DOWN:
+            vMacquin->vCoord.y += 1;
+            break;
+        case KEY_LEFT:
+            vMacquin->vCoord.x -= 1;
+            printw("L");
+            break;
+        case KEY_RIGHT:
+            vMacquin->vCoord.x += 1;
+            printw("R");
+            break;
+        default: //Если всё нормально, выводим код нажатой клавиши
+            break;
+        }
+        // std::thread vThreadClick(fOnClick, nCh);
+        // vThreadClick.join();
 
         mvaddch(0, 0, 'W');
         mvaddch(0, 1, 'R');
         mvaddch(1, 1, 'T');
-        refresh();
+        // refresh();
     }
 
     getch();

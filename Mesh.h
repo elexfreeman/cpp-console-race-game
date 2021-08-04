@@ -41,7 +41,7 @@ public:
         _vCoord.x = 0;
         _vCoord.y = 0;
 
-        if ((vCoord.x >= 0) && (vCoord.x <= mx) && (vCoord.y >= 0) && (vCoord.y <= my))
+        // if ((vCoord.x >= -w) && (vCoord.x <= mx) && (vCoord.y >= -h) && (vCoord.y <= my))
         {
             for (int dy = 0; dy < h; dy++)
             {

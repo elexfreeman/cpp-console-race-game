@@ -40,8 +40,13 @@ public:
     {
         for (int y = 0; y < my; y++)
         {
-            printw("%s", aMatrix[y].c_str());
-            printw("\n");
+            for (int x = 0; x < mx; x++)
+            {
+
+                mvaddch(y, x, aMatrix[y][x]);
+            }
+            // printw("%s", aMatrix[y].c_str());
+            // printw("\n");
         }
     }
 
