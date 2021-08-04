@@ -1,2 +1,2 @@
-#define mx 20
-#define my 80
+#define mx 80
+#define my 20

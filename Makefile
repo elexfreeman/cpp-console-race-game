@@ -13,10 +13,7 @@ clean:
 
 
 test:
-	g++ $(CFLAGS) -c test.cpp
-	#g++ $(CFLAGS) -c AIHeaders.h
-	#g++ $(CFLAGS) -c AIEqual.h 
-	#g++ $(CFLAGS) -c AICtrl.h
-	g++ $(CFLAGS) test.o  -o test.run
+	g++ $(CFLAGS) -c keyinput.cpp
+	g++ $(CFLAGS) keyinput.o -o k.run
 	make clean
-	./test.run
+	./k.run

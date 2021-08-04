@@ -1,5 +1,4 @@
 #pragma once
-#include <ncurses.h>
 #include "conf.h"
 #include <vector>
 #include <string>
@@ -11,12 +10,12 @@ private:
     std::vector<std::string> aMatrix;
 
 public:
-    void fClear()
+    ScreenG()
     {
-        for (int x = 0; x < mx; x++)
+        for (int y = 0; y < my; y++)
         {
             std::string s = "";
-            for (int y = 0; y < my; y++)
+            for (int x = 0; x < mx; x++)
             {
                 s += " ";
             }
@@ -24,11 +23,24 @@ public:
         }
     }
 
+    void fClear()
+    {
+        for (int y = 0; y < my; y++)
+        {
+            std::string s = "";
+            for (int x = 0; x < mx; x++)
+            {
+                s += " ";
+            }
+            aMatrix[y] = s;
+        }
+    }
+
     void fPrint()
     {
-        for (int x = 0; x < mx; x++)
+        for (int y = 0; y < my; y++)
         {
-            printw("%s", aMatrix[x].c_str());
+            printw("%s", aMatrix[y].c_str());
             printw("\n");
         }
     }

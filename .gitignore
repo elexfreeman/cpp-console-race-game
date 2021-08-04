@@ -1,13 +1,7 @@
-
 .vscode/ipch/*
+.vscode
 Debug
-Release
-figure_8_R.ppm
 word.txt
-CubeWorldLib.vcxproj.filters
-CubeWorldLib.vcxproj.user
-CubeWorldLib.vcxproj
-CubeWorldLib.sln
 cpp.out
 cpp.o
 main.o
@@ -15,4 +9,4 @@ ql.o
 term.o.dSYM
 ql.o.dSYM
 *.o
-ql.run
+*.run
