@@ -15,7 +15,7 @@
 #include "Mesh.h"
 #include "Map.h"
 
-void fOnClick(int nKey)
+void fOnClick(int nKey, bool *bGameOver)
 {
     switch (nKey)
     {
@@ -23,6 +23,7 @@ void fOnClick(int nKey)
         // printw("Please, press any key...\n"); //Если нажатия не было, напоминаем пользователю, что надо нажать клавишу
         break;
     case KEY_F(2): //Выходим из программы, если была нажата F2
+
         break;
     case KEY_UP:
         printw("U");
@@ -42,10 +43,10 @@ void fOnClick(int nKey)
     }
 }
 
-void fRender(Map *vMap)
+void fRender(Map *vMap, bool* bGameOver)
 {
 
-    while (true)
+    while (!(*bGameOver))
     {
         usleep(100000);
         // clear();
@@ -61,6 +62,7 @@ void foo()
 
 int main()
 {
+    bool *bGameOver = new bool(false);
 
     initscr();
     keypad(stdscr, true); //Включаем режим чтения функциональных клавиш
@@ -70,24 +72,24 @@ int main()
     ScreenG *scr = new ScreenG;
     Map *vMap = new Map(scr);
 
-    int nCh;
+    int nCh = 0;
+    nCh = 1;
 
     // рендерный поток
     // чтобы нажатия клавиш не тормозили
-    std::thread vThreadClick(fRender, vMap);
+    std::thread vThreadRender(fRender, vMap, bGameOver);
 
-    while (true)
+    while (!(*bGameOver))
     {
-        usleep(100000);
-        // clear();
-
         nCh = getch();
         switch (nCh)
         {
         case ERR:
             // printw("Please, press any key...\n"); //Если нажатия не было, напоминаем пользователю, что надо нажать клавишу
             break;
-        case KEY_F(2): //Выходим из программы, если была нажата F2
+        case 27:
+            *bGameOver = true;
+            printw("GAME OVER...\n");
             break;
         case KEY_UP:
             vMap->vMacquin->vCoord.y -= 1;
@@ -104,11 +106,20 @@ int main()
             printw("R");
             break;
         default: //Если всё нормально, выводим код нажатой клавиши
+            printw("%d", nCh);
             break;
         }
     }
 
     getch();
     endwin();
-    vThreadClick.join();
+    vThreadRender.join();
+
+    delete bGameOver;
+
+    std::cout << "\r\n";
+    std::cout << "\r\n";
+    std::cout << " .        GAME OVER!!!";
+    std::cout << "\r\n";
+    std::cout << "\r\n";
 }

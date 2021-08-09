@@ -1,5 +1,5 @@
 
-CFLAGS=-Wc++11-extensions -lncurses -std=gnu++11  -stdlib=libc++
+CFLAGS=-Wc++11-extensions -lncurses -std=gnu++11 -lao -ldl -lm  -stdlib=libc++
 
 run:
 	g++ $(CFLAGS) -c main.cpp
@@ -17,3 +17,9 @@ test:
 	g++ $(CFLAGS) keyinput.o -o k.run
 	make clean
 	./k.run
+
+test_sound:
+	g++ $(CFLAGS) -c ao.cpp
+	g++ $(CFLAGS) ao.o -o ao.run
+	make clean
+	./ao.run
