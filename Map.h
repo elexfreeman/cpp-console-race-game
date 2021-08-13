@@ -96,6 +96,20 @@ public:
         aCarsDown.push_back(vCar2);
     }
 
+    ~Map()
+    {
+        for (int k = 0; k < aCarsDown.size(); k++)
+        {
+            delete aCarsDown[k];
+        }
+        for (int k = 0; k < aWalls.size(); k++)
+        {
+            delete aWalls[k];
+        }
+
+        delete vMacquin;
+    }
+
     void fTick()
     {
         scr->fClear();
@@ -143,6 +157,7 @@ public:
             aCarsDown[k]->vCoord.y += 1;
             if (aCarsDown[k]->vCoord.y > my)
             {
+                delete aCarsDown[k];
                 aCarsDown.erase(aCarsDown.begin() + k);
                 aCarsDown.push_back(fGetCarDown());
             }

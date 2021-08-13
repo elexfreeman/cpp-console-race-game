@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <thread>
-#include <future>
 
 #include <ctime>
 #include <cmath>
@@ -15,33 +14,6 @@
 #include "Mesh.h"
 #include "Map.h"
 
-void fOnClick(int nKey, bool *bGameOver)
-{
-    switch (nKey)
-    {
-    case ERR:
-        // printw("Please, press any key...\n"); //Если нажатия не было, напоминаем пользователю, что надо нажать клавишу
-        break;
-    case KEY_F(2): //Выходим из программы, если была нажата F2
-
-        break;
-    case KEY_UP:
-        printw("U");
-        break;
-    case KEY_DOWN:
-        printw("D");
-        break;
-    case KEY_LEFT:
-        printw("L");
-        break;
-    case KEY_RIGHT:
-        printw("R");
-        break;
-    default: //Если всё нормально, выводим код нажатой клавиши
-        printw("Code of pressed key is %d\n", nKey);
-        break;
-    }
-}
 
 void fRender(Map *vMap, bool* bGameOver)
 {
@@ -69,8 +41,8 @@ int main()
     noecho();             //Выключаем отображение вводимых символов, нужно для getch()
     halfdelay(1);         //Устанавливаем ограничение по времени ожидания getch() в 10 сек
 
-    ScreenG *scr = new ScreenG;
-    Map *vMap = new Map(scr);
+    ScreenG *vScr = new ScreenG;
+    Map *vMap = new Map(vScr);
 
     int nCh = 0;
     nCh = 1;
@@ -99,11 +71,9 @@ int main()
             break;
         case KEY_LEFT:
             vMap->vMacquin->vCoord.x -= 1;
-            printw("L");
             break;
         case KEY_RIGHT:
             vMap->vMacquin->vCoord.x += 1;
-            printw("R");
             break;
         default: //Если всё нормально, выводим код нажатой клавиши
             printw("%d", nCh);
@@ -116,6 +86,8 @@ int main()
     vThreadRender.join();
 
     delete bGameOver;
+    delete vMap;
+    delete vScr;
 
     std::cout << "\r\n";
     std::cout << "\r\n";

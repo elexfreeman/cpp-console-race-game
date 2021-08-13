@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	char *buffer;
 	int buf_size;
 	int sample;
-	float freq = 440.0;
+	float freq = 220.0;
 	int i;
 
 	/* -- Initialize -- */
